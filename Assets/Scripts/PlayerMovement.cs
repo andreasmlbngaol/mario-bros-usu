@@ -32,19 +32,22 @@ public class PlayerMovement : MonoBehaviour
     }
 
     private void Update()
-    //ini untuk input move nya 
+{
+    HorizontalMovement();
+    
+    // Pastikan raycast mendeteksi ground dengan benar
+    grounded = rigidbody.Raycast(Vector2.down);
+    
+    if (grounded)
     {
-        HorizontalMovement();  
-        grounded = rigidbody.Raycast(Vector2.down);
-
-        if (grounded)
-        {
-            GroundedMovement();
-        }
-
-        ApplyGravity();
-        
+        GroundedMovement();
     }
+    
+    ApplyGravity();
+    
+    // Debug untuk mengecek status
+    Debug.Log($"Grounded: {grounded}, Velocity.y: {velocity.y}, Position.y: {transform.position.y}");
+}
 
     // ii transformasi manual itu 
     float MoveTowardsTransform(float current, float target, float delta)
@@ -75,16 +78,22 @@ public class PlayerMovement : MonoBehaviour
 }
 
 private void GroundedMovement()
+{
+    // Reset velocity.y ketika di ground
+    if (!jumping)
     {
-        velocity.y = Mathf.Max(velocity.y, 0f);
-        jumping = velocity.y > 0f;
-
-        if (Input.GetButtonDown("Jump"))
-        {
-            velocity.y = jumpForce;
-            jumping = true;
-        }
+        velocity.y = 0f;
     }
+    
+    jumping = velocity.y > 0f;
+    
+    if (Input.GetButtonDown("Jump"))
+    {
+        velocity.y = jumpForce;
+        jumping = true;
+        Debug.Log("Jump pressed! Jump force: " + jumpForce);
+    }
+}
 
 private void ApplyGravity()
     {
