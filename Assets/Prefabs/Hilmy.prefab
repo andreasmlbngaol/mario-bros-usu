@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 7804890450417507985}
   - component: {fileID: 8157894515088393083}
   - component: {fileID: 2746928268642865968}
-  - component: {fileID: 5124579213774217660}
   m_Layer: 0
   m_Name: Hilmy
   m_TagString: Untagged
@@ -98,18 +97,6 @@ CapsuleCollider2D:
   m_Offset: {x: 0, y: 0}
   m_Size: {x: 1, y: 1}
   m_Direction: 0
---- !u!114 &5124579213774217660
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1858852227008489029}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f854eebc400f645bfbd7f33597243ac4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &2293363014518770008
 GameObject:
   m_ObjectHideFlags: 0
