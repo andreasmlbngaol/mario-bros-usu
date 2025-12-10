@@ -29,7 +29,7 @@ public class Player : MonoBehaviour
 
     private void Shrink()
     {
-        // TODO()
+        // TODO
     }
 
     private void Death()

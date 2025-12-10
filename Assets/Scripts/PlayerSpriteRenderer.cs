@@ -4,39 +4,48 @@ using UnityEngine;
 
 public class PlayerSpriteRenderer : MonoBehaviour
 {
-   private SpriteRenderer spriteRenderer;
-   private PlayerMovement movement;
+    private SpriteRenderer spriteRenderer;
+    private PlayerMovement movement;
 
-   public Sprite idle;
-   public Sprite jump;
+    public Sprite idle;
+    public Sprite jump;
 
-   public Sprite slide;
+    public Sprite slide;
 
-   public Sprite run;
+    public AnimatedSprite run;
 
-   private void Awake()
+    private void Awake()
     {
-    
-         spriteRenderer = GetComponent<SpriteRenderer>();
-         movement = GetComponentInParent<PlayerMovement>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        movement = GetComponentInParent<PlayerMovement>();
+    }
 
+    private void OnEnable()
+    {
+        spriteRenderer.enabled = true;
+    }
+
+    private void OnDisable()
+    {
+        spriteRenderer.enabled = false;
     }
 
     private void LateUpdate()
     {
+
+        run.enabled = movement.running;
+
         if (movement.jumping)
         {
-            spriteRenderer.sprite= jump;
-        }else if (movement.sliding)
-        {
-            spriteRenderer.sprite= slide;
-        }else if (movement.running)
-        {
-            spriteRenderer.sprite= run;
+            spriteRenderer.sprite = jump;
         }
-        else
+        else if (movement.sliding)
         {
-            spriteRenderer.sprite= idle;
+            spriteRenderer.sprite = slide;
+        }
+        else if (!movement.running)
+        {
+            spriteRenderer.sprite = idle;
         }
     }
 }

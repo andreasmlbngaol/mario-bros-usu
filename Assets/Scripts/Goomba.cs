@@ -14,12 +14,12 @@ public class Goomba : MonoBehaviour
             if (collision.transform.DotTest(transform, Vector2.down))
             {
                 Flatten();
-                Console.WriteLine("Flattened");
+                Debug.Log("Flattened");
             }
             else
             {
                 player.Hit();
-                Console.WriteLine("Flattened");
+                Debug.Log("Hit");
             }
         }
     }
@@ -28,7 +28,7 @@ public class Goomba : MonoBehaviour
     {
         GetComponent<Collider2D>().enabled = false;
         GetComponent<EntityMovement>().enabled = false;
-        // GetComponent<AnimatedSprite>().enabled = false;
+        GetComponent<AnimatedSprite>().enabled = false;
         GetComponent<SpriteRenderer>().sprite = flatSprite;
         Destroy(gameObject, 0.5f);
     }

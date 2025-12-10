@@ -56,5 +56,5 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "mario-bros-usu.sln"
+    "dotnet.defaultSolution": "Super Hilmy Bros.sln"
 }
