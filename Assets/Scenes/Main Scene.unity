@@ -9044,6 +9044,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1427015381211341303, guid: e48cf4cd4663ebaa7b8ecf352a3fcae0, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1427015381211341303, guid: e48cf4cd4663ebaa7b8ecf352a3fcae0, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1427015381211341303, guid: e48cf4cd4663ebaa7b8ecf352a3fcae0, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1427015381211341303, guid: e48cf4cd4663ebaa7b8ecf352a3fcae0, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1858852227008489029, guid: e48cf4cd4663ebaa7b8ecf352a3fcae0, type: 3}
       propertyPath: m_Name
       value: Hilmy
@@ -9055,6 +9071,26 @@ PrefabInstance:
     - target: {fileID: 1858852227008489029, guid: e48cf4cd4663ebaa7b8ecf352a3fcae0, type: 3}
       propertyPath: m_TagString
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 2833781539199162866, guid: e48cf4cd4663ebaa7b8ecf352a3fcae0, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3784097975100583182, guid: e48cf4cd4663ebaa7b8ecf352a3fcae0, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 51d091e49bc35eb5d8c7959861fc64e4, type: 3}
+    - target: {fileID: 3784097975100583182, guid: e48cf4cd4663ebaa7b8ecf352a3fcae0, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6917775646753839801, guid: e48cf4cd4663ebaa7b8ecf352a3fcae0, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 51d091e49bc35eb5d8c7959861fc64e4, type: 3}
+    - target: {fileID: 6917775646753839801, guid: e48cf4cd4663ebaa7b8ecf352a3fcae0, type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7804890450417507985, guid: e48cf4cd4663ebaa7b8ecf352a3fcae0, type: 3}
       propertyPath: m_LocalPosition.x
