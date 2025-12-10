@@ -1,3 +1,4 @@
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,7 +6,7 @@ using UnityEngine;
 public static class Extension 
 {
     // Start is called before the first frame update
-    private static LayerMask layerMask = LayerMask.GetMask("Ground");
+    private static LayerMask layerMask = LayerMask.GetMask("Default");
 
     public static bool Raycast(this Rigidbody2D rigidbody, Vector2 direction)
     {

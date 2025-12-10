@@ -14,9 +14,7 @@ public class PlayerMovement : MonoBehaviour
 
    public float jumpForce => (2f * maxJumpHeight) / (maxJumpTime/2f);
 
-  public float gravity => 
-    -(2f * maxJumpHeight) / Mathf.Pow((maxJumpTime / 2f), 2);
-
+   public float gravity => (-2f * maxJumpHeight) / Mathf.Pow((maxJumpTime/2f), 2);
     
    public bool grounded { get; private set;} 
 
@@ -32,22 +30,19 @@ public class PlayerMovement : MonoBehaviour
     }
 
     private void Update()
-{
-    HorizontalMovement();
-    
-    // Pastikan raycast mendeteksi ground dengan benar
-    grounded = rigidbody.Raycast(Vector2.down);
-    
-    if (grounded)
+    //ini untuk input move nya 
     {
-        GroundedMovement();
+        HorizontalMovement();  
+        grounded = rigidbody.Raycast(Vector2.down);
+
+        if (grounded)
+        {
+            GroundedMovement();
+        }
+
+        ApplyGravity();
+        
     }
-    
-    ApplyGravity();
-    
-    // Debug untuk mengecek status
-    Debug.Log($"Grounded: {grounded}, Velocity.y: {velocity.y}, Position.y: {transform.position.y}");
-}
 
     // ii transformasi manual itu 
     float MoveTowardsTransform(float current, float target, float delta)
@@ -78,31 +73,24 @@ public class PlayerMovement : MonoBehaviour
 }
 
 private void GroundedMovement()
-{
-    // Reset velocity.y ketika di ground
-    if (!jumping)
     {
-        velocity.y = 0f;
+        velocity.y = Mathf.Max(velocity.y, 0f);
+        jumping = velocity.y > 0f;
+
+        if (Input.GetButtonDown("Jump"))
+        {
+            velocity.y = jumpForce;
+            jumping = true;
+        }
     }
-    
-    jumping = velocity.y > 0f;
-    
-    if (Input.GetButtonDown("Jump"))
-    {
-        velocity.y = jumpForce;
-        jumping = true;
-        Debug.Log("Jump pressed! Jump force: " + jumpForce);
-    }
-}
 
 private void ApplyGravity()
     {
         bool falling = velocity.y < 0f || !Input.GetButton("Jump");
         float multiplier = falling ? 2f : 1f;
 
-       velocity.y += gravity * multiplier * Time.deltaTime;
-       velocity.y = Mathf.Max(velocity.y, -Mathf.Abs(gravity));
-
+        velocity.y += gravity * multiplier * Time.deltaTime;
+        velocity.y= Mathf.Max(velocity.y, gravity/2f);
     }
     private void FixedUpdate()
     {
