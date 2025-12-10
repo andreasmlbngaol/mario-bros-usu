@@ -26,13 +26,12 @@ public class PowerUp : MonoBehaviour
         switch (type)
         {
             case Type.MagicMushroom:
-                // Implement magic mushroom effect
+                player.GetComponent<Player>().Grow();
                 break;
             case Type.Starpower:
                 // Implement starpower effect
                 break;
         }
-    }
-    // Start is called before the first frame update
+    }   
     
 }
