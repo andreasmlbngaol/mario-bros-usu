@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class BlockHit : MonoBehaviour
 {
+    public GameObject item;
     public Sprite emptyBlock;
     public int maxHits = -1;
 
@@ -11,7 +12,7 @@ public class BlockHit : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Player"))
+        if (!animating && maxHits != 0 && collision.gameObject.CompareTag("Player"))
         {
             if (collision.transform.DotTest(transform, Vector2.up))
             {
@@ -30,6 +31,11 @@ public class BlockHit : MonoBehaviour
             spriteRenderer.sprite = emptyBlock;
         }
         StartCoroutine(Animate());
+
+        if (item != null)
+        {
+            Instantiate(item, transform.position, Quaternion.identity);
+        }
     }
 
     private IEnumerator Animate()
