@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-   private Rigidbody2D rigidbody;
+   private new Rigidbody2D rigidbody;
    private Vector2 velocity;
    private float inputAxis;
    public float moveSpeed = 8f;
@@ -23,7 +23,7 @@ public class PlayerMovement : MonoBehaviour
 
    public bool sliding => (inputAxis> 0f && velocity.x< 0f) || (inputAxis < 0f && velocity.x > 0f);
 
-   private Camera camera;
+   private new Camera camera;
 
    private void Awake()
     {
