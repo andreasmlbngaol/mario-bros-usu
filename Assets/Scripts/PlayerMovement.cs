@@ -70,6 +70,11 @@ public class PlayerMovement : MonoBehaviour
         targetVelocity,
         delta
     );
+
+    if(rigidbody.Raycast(Vector2.right * velocity.x))
+        {
+            velocity.x= 0f;
+        }
 }
 
 private void GroundedMovement()
@@ -113,7 +118,6 @@ private void ApplyGravity()
             {
                 velocity.y = 0f;
             }
-
 
         }
     }
