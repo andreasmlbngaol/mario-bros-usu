@@ -7,7 +7,7 @@ public class PlayerMovement : MonoBehaviour
    private Rigidbody2D rigidbody;
    private Vector2 velocity;
    private float inputAxis;
-   public float moveSpeed = 12f;
+   public float moveSpeed = 8f;
    public float maxJumpHeight = 5f;
 
    public float maxJumpTime = 1f;
