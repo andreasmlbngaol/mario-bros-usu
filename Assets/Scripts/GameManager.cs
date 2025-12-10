@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour
     public int world { get; private set; }
     public int stage { get; private set; }
     public int lives { get; private set; }
+    
     private void Awake()
     {
         if (Instance != null) 
@@ -20,6 +21,7 @@ public class GameManager : MonoBehaviour
             DontDestroyOnLoad(gameObject);
         }
     }
+    
     private void OnDestroy()
     {
         if (Instance == this)
@@ -27,21 +29,68 @@ public class GameManager : MonoBehaviour
             Instance = null;
         }
     }
+    
     private void Start()
     {
         NewGame();
     }
+    
     private void NewGame()
     {
         lives = 3;
         LoadLevel(1, 1);
     }
-
+    
     private void LoadLevel(int world, int stage)
     {
         this.world = world;
         this.stage = stage;
         
         SceneManager.LoadScene($"{world}-{stage}");
+    }
+
+    public void Nextlevel()
+    {
+        // // Simulasi level berhenti di level 3
+        // if (world == 1 && stage == 3)
+        // {
+        //     LoadLevel(world + 1, 1);
+        // } else if (world == 2 && stage == 3)
+        // {
+        //     // Finish Game
+        //     GameOver();
+        // }
+        // LoadLevel(this.world, this.stage + 1);
+
+        // Karena hanya ada satu level, buat dia selesai
+        if (world == 1 && stage == 1)
+        { 
+            // GameOver sementara pengganti Game Selesai dengan Menang
+            GameOver();
+        }
+    }
+
+    public void ResetLevel(float delay)
+    {
+        Invoke(nameof(ResetLevel), delay);
+    }
+
+    public void ResetLevel()
+    {
+        lives--;
+        if (lives > 0)
+        {
+            LoadLevel(this.world, this.stage);
+        }
+        else
+        {
+            GameOver();
+        }
+    }
+
+    public void GameOver()
+    {
+        // SceneManager.LoadScene("GameOver");
+        NewGame();
     }
 }
