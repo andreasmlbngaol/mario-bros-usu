@@ -3687,12 +3687,24 @@ PrefabInstance:
     m_TransformParent: {fileID: 129454482}
     m_Modifications:
     - target: {fileID: 3278120587966169822, guid: f1846cb51b38ea5ada94ef0f4ebd9a14, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3278120587966169822, guid: f1846cb51b38ea5ada94ef0f4ebd9a14, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3278120587966169822, guid: f1846cb51b38ea5ada94ef0f4ebd9a14, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3278120587966169822, guid: f1846cb51b38ea5ada94ef0f4ebd9a14, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -48
+      value: -48.5
       objectReference: {fileID: 0}
     - target: {fileID: 3278120587966169822, guid: f1846cb51b38ea5ada94ef0f4ebd9a14, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 1.1
       objectReference: {fileID: 0}
     - target: {fileID: 3278120587966169822, guid: f1846cb51b38ea5ada94ef0f4ebd9a14, type: 3}
       propertyPath: m_LocalPosition.z
@@ -3726,6 +3738,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3278120587966169822, guid: f1846cb51b38ea5ada94ef0f4ebd9a14, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4625296449686613516, guid: f1846cb51b38ea5ada94ef0f4ebd9a14, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 7c803125e7b8a825393036e0bf98c518, type: 3}
     - target: {fileID: 6655345334292225537, guid: f1846cb51b38ea5ada94ef0f4ebd9a14, type: 3}
       propertyPath: m_Name
       value: Hill2 (3)
@@ -6706,6 +6726,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55d3ea9af95c2f1d09a3d2ecc98e04a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  backgroundMusic: {fileID: 8300000, guid: bd9a4f67917b9b660ad88400bac5b13c, type: 3}
 --- !u!4 &1402051334
 Transform:
   m_ObjectHideFlags: 0
@@ -9031,6 +9052,7 @@ MonoBehaviour:
   moveSpeed: 12
   maxJumpHeight: 5
   maxJumpTime: 1
+  jumpSound: {fileID: 8300000, guid: 07ef71964377eb79c8895837ae54d066, type: 3}
 --- !u!114 &1911702368
 MonoBehaviour:
   m_ObjectHideFlags: 0

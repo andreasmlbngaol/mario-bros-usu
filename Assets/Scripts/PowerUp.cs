@@ -32,6 +32,8 @@ public class PowerUp : MonoBehaviour
                 // Implement starpower effect
                 break;
         }
+        
+        Destroy(gameObject);
     }   
     
 }

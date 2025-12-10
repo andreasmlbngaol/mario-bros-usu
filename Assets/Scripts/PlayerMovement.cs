@@ -25,10 +25,19 @@ public class PlayerMovement : MonoBehaviour
 
     private new Camera camera;
 
+    private AudioSource audioSource;
+    public AudioClip jumpSound;
+    
     private void Awake()
     {
         rigidbody = GetComponent<Rigidbody2D>();
         camera = Camera.main;
+        // Setup audio source
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+        {
+            audioSource = gameObject.AddComponent<AudioSource>();
+        }
     }
 
     private void OnEnable()
@@ -113,6 +122,7 @@ public class PlayerMovement : MonoBehaviour
         {
             velocity.y = jumpForce;
             jumping = true;
+            PlayJumpSound();
         }
     }
 
@@ -145,7 +155,7 @@ public class PlayerMovement : MonoBehaviour
             if (transform.DotTest(collision.transform, Vector2.down))
             {
                 velocity.y = jumpForce / 2f;
-                jumping = true;
+                PlayJumpSound();
             }
         }
         else if (collision.gameObject.layer != LayerMask.NameToLayer("PowerUp"))
@@ -157,4 +167,13 @@ public class PlayerMovement : MonoBehaviour
 
         }
     }
+    
+    private void PlayJumpSound()
+    {
+        if (jumpSound != null && audioSource != null)
+        {
+            audioSource.PlayOneShot(jumpSound);
+        }
+    }
+
 }

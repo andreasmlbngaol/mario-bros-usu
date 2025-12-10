@@ -9,6 +9,9 @@ public class GameManager : MonoBehaviour
     public int stage { get; private set; }
     public int lives { get; private set; }
     
+    private AudioSource audioSource;
+    public AudioClip backgroundMusic;
+    
     private void Awake()
     {
         if (Instance != null) 
@@ -19,6 +22,12 @@ public class GameManager : MonoBehaviour
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
+            
+            audioSource = GetComponent<AudioSource>();
+            if (audioSource == null)
+            {
+                audioSource = gameObject.AddComponent<AudioSource>();
+            }
         }
     }
     
@@ -47,6 +56,17 @@ public class GameManager : MonoBehaviour
         this.stage = stage;
         
         SceneManager.LoadScene($"{world}-{stage}");
+        PlayBackgroundMusic();
+    }
+
+    private void PlayBackgroundMusic()
+    {
+        if (backgroundMusic != null && !audioSource.isPlaying)
+        {
+            audioSource.clip = backgroundMusic;
+            audioSource.loop = true;
+            audioSource.Play();
+        }
     }
 
     public void Nextlevel()
