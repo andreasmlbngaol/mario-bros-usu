@@ -9132,6 +9132,10 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 2746928268642865968, guid: e48cf4cd4663ebaa7b8ecf352a3fcae0, type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 6200000, guid: f3e74431fddb4c64888e8a11159ead3d, type: 2}
     - target: {fileID: 2833781539199162866, guid: e48cf4cd4663ebaa7b8ecf352a3fcae0, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.5
@@ -9191,6 +9195,18 @@ PrefabInstance:
     - target: {fileID: 7804890450417507985, guid: e48cf4cd4663ebaa7b8ecf352a3fcae0, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8157894515088393083, guid: e48cf4cd4663ebaa7b8ecf352a3fcae0, type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 6200000, guid: f3e74431fddb4c64888e8a11159ead3d, type: 2}
+    - target: {fileID: 8157894515088393083, guid: e48cf4cd4663ebaa7b8ecf352a3fcae0, type: 3}
+      propertyPath: m_Interpolate
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8157894515088393083, guid: e48cf4cd4663ebaa7b8ecf352a3fcae0, type: 3}
+      propertyPath: m_CollisionDetection
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 5124579213774217660, guid: e48cf4cd4663ebaa7b8ecf352a3fcae0, type: 3}
