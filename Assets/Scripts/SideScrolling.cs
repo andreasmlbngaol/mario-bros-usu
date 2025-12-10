@@ -12,7 +12,6 @@ public class SideScrolling : MonoBehaviour
     {
             player = GameObject.FindWithTag("Player").transform;
     }
-
     private void LateUpdate()
     {
         Vector3 cameraPosition= transform.position;

@@ -4,17 +4,17 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-   private Rigidbody2D rigidbody;
+   private Rigidbody2D playerRigidbody;
    private Vector2 velocity;
    private float inputAxis;
    public float moveSpeed = 12f;
    public float maxJumpHeight = 5f;
-   private Camera camera;
+   private Camera playerCamera;
 
    private void Awake()
     {
-        rigidbody = GetComponent<Rigidbody2D>();
-        camera = Camera.main; 
+        playerRigidbody = GetComponent<Rigidbody2D>();
+        playerCamera = Camera.main; 
     }
 
     private void Update()
@@ -54,17 +54,15 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Vector2 position = rigidbody.position;
+        Vector2 position = playerRigidbody.position;
         position+= velocity * Time.fixedDeltaTime;
-        Vector2 leftEdge = camera.ScreenToWorldPoint(Vector2.zero);
-        Vector2 rightEdge = camera.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height));
+        Vector2 leftEdge = playerCamera.ScreenToWorldPoint(Vector2.zero);
+        Vector2 rightEdge = playerCamera.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height));
         position.x = Mathf.Clamp(position.x, leftEdge.x + 0.5f, rightEdge.x-0.5f);
 
 
-        rigidbody.MovePosition(position);   
+        playerRigidbody.MovePosition(position);   
     } 
-
-
 
 
 }
