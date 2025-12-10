@@ -18,3 +18,5 @@ Assets/Plugins/Editor/JetBrains*
 *.mdb
 *.opendb
 *.VC.db
+.vscode/*
+.idea/*
