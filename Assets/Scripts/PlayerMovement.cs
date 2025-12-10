@@ -19,7 +19,9 @@ public class PlayerMovement : MonoBehaviour
    public bool grounded { get; private set;} 
 
    public bool jumping { get; private set; } 
+   public bool running =>Mathf.Abs(velocity.x) > 0.25 || Mathf.Abs(inputAxis) > 0.25f;
 
+   public bool sliding => (inputAxis> 0f && velocity.x< 0f) || (inputAxis < 0f && velocity.x > 0f);
 
    private Camera camera;
 
@@ -74,6 +76,15 @@ public class PlayerMovement : MonoBehaviour
     if(rigidbody.Raycast(Vector2.right * velocity.x))
         {
             velocity.x= 0f;
+        }
+
+        if (velocity.x > 0f)
+        {
+            transform.eulerAngles = Vector3.zero;
+        }
+        else if(velocity.x < 0f)
+        {
+         transform.eulerAngles = new Vector3(0f, 180f,0f);   
         }
 }
 
