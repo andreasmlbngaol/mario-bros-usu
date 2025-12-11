@@ -29,7 +29,7 @@ public class PowerUp : MonoBehaviour
                 player.GetComponent<Player>().Grow();
                 break;
             case Type.Starpower:
-                // Implement starpower effect
+                player.GetComponent<Player>().Starpower();
                 break;
         }
         
