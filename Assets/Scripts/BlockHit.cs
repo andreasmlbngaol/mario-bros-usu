@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class BlockHit : MonoBehaviour
@@ -9,11 +8,18 @@ public class BlockHit : MonoBehaviour
     public int maxHits = -1;
 
     private bool animating;
+    private SpriteRenderer spriteRenderer;
+
+    private void Awake()
+    {
+        spriteRenderer = GetComponent<SpriteRenderer>();
+    }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (!animating && maxHits != 0 && collision.gameObject.CompareTag("Player"))
         {
+            // This relies on Extension.cs being in your project!
             if (collision.transform.DotTest(transform, Vector2.up))
             {
                 Hit();
@@ -23,19 +29,21 @@ public class BlockHit : MonoBehaviour
 
     private void Hit()
     {
-        SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
-
         maxHits--;
         if (maxHits == 0)
         {
             spriteRenderer.sprite = emptyBlock;
         }
+        
         StartCoroutine(Animate());
 
         if (item != null)
         {
             Instantiate(item, transform.position, Quaternion.identity);
         }
+        
+        // Triggers the custom shader flash
+        StartCoroutine(FlashShader());
     }
 
     private IEnumerator Animate()
@@ -45,13 +53,14 @@ public class BlockHit : MonoBehaviour
         Vector3 restingPosition = transform.localPosition;
         Vector3 animatedPosition = restingPosition + Vector3.up * 0.5f;
 
-        yield return Move(restingPosition, animatedPosition);
-        yield return Move(animatedPosition, restingPosition);
+        yield return MoveManual(restingPosition, animatedPosition);
+        yield return MoveManual(animatedPosition, restingPosition);
 
         animating = false;
     }
 
-    private IEnumerator Move(Vector3 from, Vector3 to)
+    // Manual Math calculation (No built-in MoveTowards)
+    private IEnumerator MoveManual(Vector3 from, Vector3 to)
     {
         float elapsed = 0f;
         float duration = 0.125f;
@@ -59,7 +68,9 @@ public class BlockHit : MonoBehaviour
         while (elapsed < duration)
         {
             float t = elapsed / duration;
-            transform.localPosition = Vector3.Lerp(from, to, t);
+            // Manual linear interpolation formula: P = A + (B - A) * t
+            transform.localPosition = from + (to - from) * t;
+            
             elapsed += Time.deltaTime;
             yield return null;
         }
@@ -67,4 +78,14 @@ public class BlockHit : MonoBehaviour
         transform.localPosition = to;
     }
 
+    private IEnumerator FlashShader()
+    {
+        // Ensure your Material has a float property named "_HitEffect"
+        if (spriteRenderer != null && spriteRenderer.material.HasProperty("_HitEffect"))
+        {
+            spriteRenderer.material.SetFloat("_HitEffect", 1f);
+            yield return new WaitForSeconds(0.1f);
+            spriteRenderer.material.SetFloat("_HitEffect", 0f);
+        }
+    }
 }
