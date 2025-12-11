@@ -10341,7 +10341,7 @@ PrefabInstance:
     - target: {fileID: 437392211415233626, guid: e48cf4cd4663ebaa7b8ecf352a3fcae0, type: 3}
       propertyPath: idle
       value: 
-      objectReference: {fileID: 21300000, guid: 51d091e49bc35eb5d8c7959861fc64e4, type: 3}
+      objectReference: {fileID: 21300000, guid: e32f31332244321c78d88992be189188, type: 3}
     - target: {fileID: 437392211415233626, guid: e48cf4cd4663ebaa7b8ecf352a3fcae0, type: 3}
       propertyPath: jump
       value: 
