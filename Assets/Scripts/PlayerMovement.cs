@@ -10,21 +10,18 @@ public class PlayerMovement : MonoBehaviour
     public float moveSpeed = 8f;
     public float maxJumpHeight = 5f;
 
-    public float maxJumpTime = 1f;
+    // SAFETY: Default 1f prevents DivideByZero (Infinite Gravity) error
+    public float maxJumpTime = 1f; 
 
     public float jumpForce => (2f * maxJumpHeight) / (maxJumpTime / 2f);
-
     public float gravity => (-2f * maxJumpHeight) / Mathf.Pow((maxJumpTime / 2f), 2);
 
     public bool grounded { get; private set; }
-
     public bool jumping { get; private set; }
     public bool running => Mathf.Abs(velocity.x) > 0.25 || Mathf.Abs(inputAxis) > 0.25f;
-
     public bool sliding => (inputAxis > 0f && velocity.x < 0f) || (inputAxis < 0f && velocity.x > 0f);
 
     private new Camera camera;
-
     private AudioSource audioSource;
     public AudioClip jumpSound;
     
@@ -32,18 +29,22 @@ public class PlayerMovement : MonoBehaviour
     {
         rigidbody = GetComponent<Rigidbody2D>();
         camera = Camera.main;
-        // Setup audio source
         audioSource = GetComponent<AudioSource>();
         if (audioSource == null)
         {
             audioSource = gameObject.AddComponent<AudioSource>();
         }
+
+        // FIX: Reset rotation so "Flip via Scale" works correctly
+        transform.rotation = Quaternion.identity;
     }
 
     private void OnEnable()
     {
         rigidbody.isKinematic = false;
-        collider.enabled = true;
+        collider = GetComponent<Collider2D>();
+        if(collider != null) collider.enabled = true;
+
         velocity = Vector2.zero;
         jumping = false;
     }
@@ -51,13 +52,12 @@ public class PlayerMovement : MonoBehaviour
     private void OnDisable()
     {
         rigidbody.isKinematic = true;
-        collider.enabled = false;
+        if(collider != null) collider.enabled = false;
         velocity = Vector2.zero;
         jumping = false;
     }
 
     private void Update()
-        //ini untuk input move nya 
     {
         HorizontalMovement();
         grounded = rigidbody.Raycast(Vector2.down);
@@ -68,22 +68,18 @@ public class PlayerMovement : MonoBehaviour
         }
 
         ApplyGravity();
-
     }
 
-    // ii transformasi manual itu 
+    // --- ASSIGNMENT REQUIREMENT: MANUAL MATH ---
+    // Replaces Mathf.MoveTowards
     float MoveTowardsTransform(float current, float target, float delta)
     {
-        float transform = target - current;
-
-        if (transform > delta)
-            transform = delta;
-        else if (transform < -delta)
-            transform = -delta;
-
-        return current + transform;
+        float diff = target - current;
+        if (Mathf.Abs(diff) <= delta)
+            return target;
+        
+        return current + Mathf.Sign(diff) * delta;
     }
-
 
     private void HorizontalMovement()
     {
@@ -92,24 +88,37 @@ public class PlayerMovement : MonoBehaviour
         float targetVelocity = inputAxis * moveSpeed;
         float delta = moveSpeed * Time.deltaTime;
 
+        // Apply Manual Math for Acceleration
         velocity.x = MoveTowardsTransform(
             velocity.x,
             targetVelocity,
             delta
         );
 
-        if (rigidbody.Raycast(Vector2.right * velocity.x))
-        {
-            velocity.x = 0f;
-        }
+        // FIX: REMOVED Raycast(Vector2.right) to solve "Toe Stubbing" error.
+        // The Rigidbody handles wall collisions automatically.
 
+        // Flip Logic (Manual Transformation via Scale)
         if (velocity.x > 0f)
         {
-            transform.eulerAngles = Vector3.zero;
+            Flip(1); // Face Right
         }
         else if (velocity.x < 0f)
         {
-            transform.eulerAngles = new Vector3(0f, 180f, 0f);
+            Flip(-1); // Face Left
+        }
+    }
+
+    private void Flip(float direction)
+    {
+        Vector3 currentScale = transform.localScale;
+        
+        // Only apply if we need to change direction
+        if (Mathf.Sign(currentScale.x) != direction)
+        {
+            // Set X to (Current Absolute Size * Direction)
+            // This ensures we don't accidentally shrink a Big Mario
+            transform.localScale = new Vector3(Mathf.Abs(currentScale.x) * direction, currentScale.y, currentScale.z);
         }
     }
 
@@ -137,25 +146,43 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Vector2 position = rigidbody.position;
-        position += velocity * Time.fixedDeltaTime;
-        Vector2 leftEdge = camera.ScreenToWorldPoint(Vector2.zero);
-        Vector2 rightEdge = camera.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height));
-        position.x = Mathf.Clamp(position.x, leftEdge.x + 0.5f, rightEdge.x - 0.5f);
+        // --- ASSIGNMENT REQUIREMENT: MANUAL INTEGRATION ---
+        // Formula: Position = Position + (Velocity * Time)
+        Vector2 velocityVector = velocity * Time.fixedDeltaTime;
+        Vector2 nextPosition = rigidbody.position + velocityVector;
 
+        // Manual Camera Clamp
+        if (camera != null)
+        {
+            Vector2 leftEdge = camera.ScreenToWorldPoint(Vector2.zero);
+            Vector2 rightEdge = camera.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height));
+            nextPosition.x = Mathf.Clamp(nextPosition.x, leftEdge.x + 0.5f, rightEdge.x - 0.5f);
+        }
 
-        rigidbody.MovePosition(position);
+        // Apply result manually to Transform (for the assignment) and Rigidbody (for physics sync)
+        transform.position = new Vector3(nextPosition.x, nextPosition.y, transform.position.z);
+        rigidbody.position = nextPosition; 
     }
-
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.layer == LayerMask.NameToLayer("Enemy"))
         {
+            // Case 1: Hit enemy from above (Mario kills Enemy)
             if (transform.DotTest(collision.transform, Vector2.down))
             {
                 velocity.y = jumpForce / 2f;
                 PlayJumpSound();
+            }
+            // Case 2: Hit enemy from side/bottom (Enemy kills Mario)
+            // FIX: Added the Logic to actually trigger Death!
+            else 
+            {
+                var player = GetComponent<Player>();
+                if (player != null)
+                {
+                    player.Hit();
+                }
             }
         }
         else if (collision.gameObject.layer != LayerMask.NameToLayer("PowerUp"))
@@ -164,7 +191,6 @@ public class PlayerMovement : MonoBehaviour
             {
                 velocity.y = 0f;
             }
-
         }
     }
     
@@ -175,5 +201,4 @@ public class PlayerMovement : MonoBehaviour
             audioSource.PlayOneShot(jumpSound);
         }
     }
-
 }
