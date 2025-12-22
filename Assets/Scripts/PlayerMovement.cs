@@ -87,6 +87,7 @@ public class PlayerMovement : MonoBehaviour
 
         float targetVelocity = inputAxis * moveSpeed;
         float delta = moveSpeed * Time.deltaTime;
+        
 
         // Apply Manual Math for Acceleration
         velocity.x = MoveTowardsTransform(
@@ -94,7 +95,6 @@ public class PlayerMovement : MonoBehaviour
             targetVelocity,
             delta
         );
-
         // FIX: REMOVED Raycast(Vector2.right) to solve "Toe Stubbing" error.
         // The Rigidbody handles wall collisions automatically.
 
@@ -146,21 +146,18 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        // --- ASSIGNMENT REQUIREMENT: MANUAL INTEGRATION ---
-        // Formula: Position = Position + (Velocity * Time)
         Vector2 velocityVector = velocity * Time.fixedDeltaTime;
         Vector2 nextPosition = rigidbody.position + velocityVector;
-
+        
         // Manual Camera Clamp
         if (camera != null)
         {
             Vector2 leftEdge = camera.ScreenToWorldPoint(Vector2.zero);
             Vector2 rightEdge = camera.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height));
+        
             nextPosition.x = Mathf.Clamp(nextPosition.x, leftEdge.x + 0.5f, rightEdge.x - 0.5f);
         }
-
-        // Apply result manually to Transform (for the assignment) and Rigidbody (for physics sync)
-        transform.position = new Vector3(nextPosition.x, nextPosition.y, transform.position.z);
+        
         rigidbody.position = nextPosition; 
     }
 
@@ -172,15 +169,15 @@ public class PlayerMovement : MonoBehaviour
             if (transform.DotTest(collision.transform, Vector2.down))
             {
                 velocity.y = jumpForce / 2f;
+                velocity.x = 0f; // ADD THIS - Reset horizontal momentum
                 PlayJumpSound();
             }
-            // Case 2: Hit enemy from side/bottom (Enemy kills Mario)
-            // FIX: Added the Logic to actually trigger Death!
             else 
             {
                 var player = GetComponent<Player>();
                 if (player != null)
                 {
+                    velocity.x = 0f; // ADD THIS - Reset momentum saat hit dari samping
                     player.Hit();
                 }
             }

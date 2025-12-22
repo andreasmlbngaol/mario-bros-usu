@@ -22,6 +22,12 @@ public class Player : MonoBehaviour
         deathAnimation = GetComponent<DeathAnimation>();
         capsuleCollider = GetComponent<CapsuleCollider2D>();
         
+        // ADD THIS LINE
+        activeRenderer = GetComponentInChildren<PlayerSpriteRenderer>();  // GANTI KE INI
+
+        var spriteRenderer = activeRenderer.spriteRenderer;
+        spriteRenderer.material = new Material(spriteRenderer.material);
+
         // FIX: Ensure we start with a clean slate
         transform.localScale = baseSmallScale;
         transform.rotation = Quaternion.identity; // Reset rotation to prevent invisibility
@@ -120,6 +126,8 @@ public class Player : MonoBehaviour
     {
         starpower = true;
         float elapsed = 0f;
+    
+        Material material = activeRenderer.spriteRenderer.material;
 
         while (elapsed < duration)
         {
@@ -127,11 +135,17 @@ public class Player : MonoBehaviour
 
             if (Time.frameCount % 4 == 0)
             {
-                activeRenderer.spriteRenderer.color = Random.ColorHSV(0f, 1f, 1f, 1f, 1f, 1f);
+                // Ganti warna via shader property, bukan via .color
+                Color randomColor = Random.ColorHSV(0f, 1f, 1f, 1f, 1f, 1f);
+                material.SetColor("_StarColor", randomColor);
+                material.SetFloat("_Intensity", 1.5f);
             }
             yield return null;
         }
 
+        // Reset ke warna normal
+        material.SetColor("_StarColor", Color.white);
+        material.SetFloat("_Intensity", 0f);
         activeRenderer.spriteRenderer.color = Color.white;
         starpower = false;
     }
